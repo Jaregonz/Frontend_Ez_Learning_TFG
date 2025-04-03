@@ -67,13 +67,26 @@ a:hover{
         height: 100vh;
 
     }*/
+    .LandingPage {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-landing-page {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     .landing-page {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center; 
-        height: 70vh; 
+        height: 100vh; 
         gap: 100px;
     }
     .titulo-landing-page{
@@ -143,7 +156,6 @@ a:hover{
       border-radius: 5px;
       font-size: 14px;
   }
-    /* Estilos del pop-up */
 .popup {
     position: fixed;
     top: 0;
@@ -178,6 +190,12 @@ a:hover{
 }
   
   /*REGISTER*/
+  .RegisterPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .main-register {
     font-family: Roboto;
     margin: 0;
@@ -187,6 +205,11 @@ a:hover{
     align-items: center;
     height: 70vh;
     background-color: #FFFFFF;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .titulo-register{
     text-align: center;
@@ -381,6 +404,12 @@ a:hover{
   }
   
   /*HOME*/
+  .HomePage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .main-home {
     margin: 0;
     font-family: Roboto;
@@ -388,6 +417,11 @@ a:hover{
     background-color: #f9f9f9;
     color: #1e1e1e;
     padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   
   h1 {
@@ -410,7 +444,8 @@ a:hover{
   
   .illustration {
     margin: 20px auto;
-    max-width: 60%;
+    max-width: 40%;
+    height: auto;
   }
   
   .bottom-buttons{
@@ -444,11 +479,22 @@ a:hover{
   }
   
   /*TESTS*/
+
+  .TestsPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .main-tests {
     font-family: Roboto;
-    margin: 0;
+    margin: 0 5%;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #FFFFFF;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
   }
   
   .container {
@@ -458,32 +504,47 @@ a:hover{
   }
   
   .search-bar {
+    margin: 0 30%;
     display: flex;
-    align-items: center;
+    gap: 10px;
     margin-top: 5%;
-    margin-left: 15%
-  }
-  
-  .search-bar input[type="text"] {
-    width: 70%;
+    width: 100%; 
+}
+
+.search-bar input[type="text"] {
+    flex-grow: 1; /* Permite que el input crezca sin ocupar todo el espacio */
+    max-width: 30%; /* Limita el tamaño del input */
+    min-width: 200px; /* Evita que se haga muy pequeño */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .search-bar select, .search-bar button {
+    margin-top: 15px;
+
+}
+
+.search-bar select {
+    flex-grow: 0; /* Evita que los select crezcan demasiado */
+    width: 5%; /* Ajusta el ancho de los select */
+    min-width: 100px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: white;
-    cursor: pointer;
-  }
-  
-  .search-bar button {
+    margin-top: 15px;
+
+}
+
+.search-bar button{
+  background-color: #FFFFFF;
+}
+
+.search-filtro {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     background-color: #343a40;
     color: white;
-    margin-bottom: 1%;
-  }
+    cursor: pointer;
+}
   
   .test-table {
     width: 100%;
@@ -738,5 +799,9 @@ a:hover{
     .popup-content {
         width: 90%; /* Usa casi todo el ancho disponible en móviles */
         height: auto;
+    }
+    .illustration{
+      width: 25%;
+      height: auto;
     }
 }

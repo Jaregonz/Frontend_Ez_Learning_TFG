@@ -6,6 +6,7 @@ import '../styles/footer.css';
 import '../styles/header.css';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -31,7 +32,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/registro", {
+      const response = await fetch("http://localhost:8080/usuarios/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -43,6 +44,7 @@ const RegisterPage = () => {
 
       alert("Registro exitoso");
       console.log("Registro exitoso:", await response.json());
+      navigate("/");
     } catch (error) {
       alert("Hubo un error en el registro, inténtalo de nuevo.");
       console.error(error);
@@ -64,20 +66,18 @@ const RegisterPage = () => {
           <div className="form-register">
             <h1 className="titulo-register">CREAR CUENTA</h1>
             <form className="register" onSubmit={handleSubmit}>
-              <label htmlFor="username">Usuario</label>
-              <input type="text" id="username" name="username" placeholder="Usuario" required onChange={handleChange} />
-
-              <label htmlFor="password">Contraseña</label>
-              <input type="password" id="password" name="password" placeholder="Contraseña" required onChange={handleChange} />
-
-              <label htmlFor="correoElectronico">Correo Electrónico</label>
-              <input type="email" id="correoElectronico" name="correoElectronico" placeholder="Correo Electrónico" required onChange={handleChange} />
 
               <label htmlFor="nombre">Nombre</label>
               <input type="text" id="nombre" name="nombre" placeholder="Nombre" required onChange={handleChange} />
 
               <label htmlFor="apellidos">Apellidos</label>
               <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required onChange={handleChange} />
+
+              <label htmlFor="password">Contraseña</label>
+              <input type="password" id="password" name="password" placeholder="Contraseña" required onChange={handleChange} />
+
+              <label htmlFor="correoElectronico">Correo Electrónico</label>
+              <input type="email" id="correoElectronico" name="correoElectronico" placeholder="Correo Electrónico" required onChange={handleChange} />
 
               <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
               <input type="date" id="fechaNacimiento" name="fechaNacimiento" required onChange={handleChange} />
@@ -89,17 +89,13 @@ const RegisterPage = () => {
                 <option value="B2">B2</option>
                 <option value="C1">C1</option>
               </select>
-
-              <label htmlFor="rol">Soy profesor</label>
-              <input type="checkbox" id="rol" name="rol" onChange={handleChange} />
-
+              <div className="checkbox-group">
+                <label htmlFor="rol">Soy profesor</label>
+                <input type="checkbox" id="rol" name="rol" onChange={handleChange} />
+              </div>
+              
               <label htmlFor="imagenPerfil">Imagen de Perfil (URL)</label>
               <input type="text" id="imagenPerfil" name="imagenPerfil" placeholder="URL de la imagen de perfil" onChange={handleChange} />
-
-              <div className="checkbox-group">
-                <input type="checkbox" id="cookies" name="cookies" required />
-                <label htmlFor="cookies">He leído y acepto las Políticas de Privacidad y Políticas de Cookies</label>
-              </div>
 
               <button className="boton" type="submit">REGISTRARSE</button>
             </form>

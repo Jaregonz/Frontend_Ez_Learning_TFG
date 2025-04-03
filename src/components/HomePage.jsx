@@ -5,37 +5,46 @@ import '../styles/style.css';
 import '../styles/footer.css';
 import '../styles/header.css';
 function HomePage() {
+    const navigate = useNavigate();
+    const handleNavigateToTests = () => {
+        const token = localStorage.getItem('jwtToken'); // Supongamos que el token se guarda en localStorage
+        if (token) {
+          navigate('/tests', { state: { token } });
+        } else {
+          alert('Por favor, inicie sesión para acceder a los tests.');
+        }
+      };
   return (
     <div className="HomePage">
         <header>
             <a href="./home.html">
-                <div class="logo">
+                <div className="logo">
                     <img src="./img/Icono EzLearning.png" alt="Logo"/>
                 </div>
             </a>  
             <nav>
                 <ul>
-                    <li><a href="./tests.html">TESTS</a></li>
+                    <li><a href="" onClick={handleNavigateToTests}>TESTS</a></li>
                     <li><a href="./404.html">EX&Aacute;MENES</a></li>
                     <li><a href="./profile.html">PERFIL</a></li>
                     <li><a href="./landing_page.html">CERRAR SESI&Oacute;N</a></li>
                 </ul>
             </nav>  
     </header>
-    <main class="main-home">
-        <img src="./img/imagen-home.png" alt="Imagen de bienvenida" class="illustration"/>
-        <div class="bottom-buttons">
+    <main className="main-home">
+        <img src="./img/imagen-home.png" alt="Imagen de bienvenida" className="illustration"/>
+        <div className="bottom-buttons">
             <h1>¿Qué te apetece practicar hoy?</h1>
         
-            <div class="options">
+            <div className="options">
                 <a href="./tests.html">
-                    <button class="boton">
+                    <button className="boton">
                         TESTS
                     </button>
                 </a>
-                <img src="./img/buho.svg" alt="Owlie" class="logo-owlie"/>
+                <img src="./img/buho.svg" alt="Owlie" className="logo-owlie"/>
                 <a href="./404.html">
-                    <button class="boton">
+                    <button className="boton">
                         EXÁMENES
                     </button>
                 </a>
@@ -43,24 +52,24 @@ function HomePage() {
         </div>
     </main>
     <footer>
-        <div class="menu">
+        <div className="menu">
             <a href="./home.html">Inicio</a>
             <a href="./404.html">Sobre nosotros</a>
             <a href="./contact.html">Contáctanos</a>
             <a href="./404.html">Preguntas Frecuentes</a>
           </div>
     
-        <div class="social-icons">
+        <div className="social-icons">
             <img src="./img/logos-footerpng.png"/>
         </div>
     
-        <div class="footer-bottom">
-            <div class="language">
+        <div className="footer-bottom">
+            <div className="language">
                 <a href="#">Español</a>
                 <a href="#">Inglés</a>
                 <a href="#">Francés</a>
             </div>
-            <div class="rights">
+            <div className="rights">
                 Non Copyrighted © 2024 Uploaded by EZ Learning
             </div>
         </div>
