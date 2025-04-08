@@ -86,7 +86,7 @@ a:hover{
         align-items: center;
         justify-content: center;
         text-align: center; 
-        height: 100vh; 
+        height: 90vh; 
         gap: 100px;
     }
     .titulo-landing-page{
@@ -197,23 +197,22 @@ a:hover{
   }
 
   .main-register {
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
     background-color: #FFFFFF;
     flex-grow: 1;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .titulo-register{
     text-align: center;
   }
+
+  .titulo-register {
+    text-align: center;
+  }
+
   .container-register {
     display: flex;
     justify-content: space-between;
@@ -221,67 +220,68 @@ a:hover{
     width: 90%;
     max-width: 1200px;
     padding: 20px;
+    flex-wrap: wrap;
   }
-  
+
   .form-register {
     flex: 1;
     padding: 20px;
-    background-color:#DAF1F7;
+    background-color: #DAF1F7;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 300px;
   }
-  
+
   .register {
     display: flex;
     flex-direction: column;
-    
   }
-  
+
   input, select {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    width: 100%;
   }
-  
+
   .checkbox-group {
-    display: inline;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 15px;
   }
-  
-  .checkbox-group input {
-    margin-right: 10px;
-  }
-  
+
   .form-section a {
     font-size: 12px;
     color: #5eb6e1;
     text-decoration: none;
   }
-  
+
   .form-section a:hover {
     text-decoration: underline;
   }
-  
+
   .logo-section {
     flex: 1;
     text-align: center;
     padding: 20px;
+    min-width: 300px;
   }
-  
+
   .logo-section h2 {
-  
     font-size: 68px;
     color: #141D36;
     margin-bottom: 10px;
-    font-family: Dosis;
+    font-family: 'Dosis', sans-serif;
   }
-  
+
   .logo-section img {
     max-width: 75%;
     height: auto;
   }
-  
+
   .logo-section p {
     font-size: 20px;
     color: #5eb6e1;
@@ -292,15 +292,25 @@ a:hover{
   
   
   /*PROFILE*/
+
+  .ProfilePage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
   
   .main-profile {
     font-family: Roboto;
     margin: 0;
     padding: 0;
     background-color: #FFFFFF;
-    display: block;
     padding: 20px;
     margin-left: 10%;
+    margin-top: 5%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .profile-container {
@@ -309,32 +319,40 @@ a:hover{
     width: 100%;
     max-width: 1200px;
     margin-bottom: 30px;
+    flex-wrap: wrap; 
   }
-  
   .profile-photo {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-basis: 200px;
+    align-items: center;
   }
   
   .profile-photo img {
-    width: 168px;
     height: auto;
     border-radius: 18%;
     object-fit: cover;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 20%;
+    margin-left: 0;
+    width: 168px;
+    height: 250px;
+    object-fit: cover; 
   }
   
-  
+  /* Detalles del perfil */
   .profile-details {
     flex: 1;
     background-color: #e8f6fe;
     border-radius: 10px;
     padding: 2%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
+  /* Título del perfil */
   .profile-details h1 {
     font-size: 20px;
     color: #141D36;
@@ -342,25 +360,26 @@ a:hover{
     text-align: center;
   }
   
-  
+  /* Estilo de la cuadrícula de detalles */
   .details-grid {
-    margin-left: 20%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
   }
   
+  /* Estilo de cada celda de la cuadrícula */
   .details-grid div {
     font-size: 14px;
     color: #000000;
-    display: grid
-  
+    display: grid;
   }
   
+  /* Estilo de los títulos dentro de los detalles */
   .details-grid div span {
     font-weight: bold;
   }
   
+  /* Contenedor de los resultados */
   .results-container {
     width: 100%;
     max-width: 1200px;
@@ -368,8 +387,10 @@ a:hover{
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
   }
   
+  /* Título de la sección de resultados */
   .results-container h1 {
     font-size: 20px;
     color: #141D36;
@@ -377,6 +398,7 @@ a:hover{
     text-align: center;
   }
   
+  /* Estilo de la línea bajo el título */
   .results-container h2 span {
     display: block;
     width: 60px;
@@ -385,6 +407,7 @@ a:hover{
     margin: 0 auto;
   }
   
+  /* Estilo de cada resultado */
   .result {
     background-color: #d9effb;
     padding: 10px;
@@ -396,11 +419,11 @@ a:hover{
     font-size: 14px;
   }
   
+  /* Estilo de cada celda en los resultados */
   .result div {
     font-size: 14px;
     color: #000000;
-    display: grid
-  
+    display: grid;
   }
   
   /*HOME*/
@@ -512,9 +535,9 @@ a:hover{
 }
 
 .search-bar input[type="text"] {
-    flex-grow: 1; /* Permite que el input crezca sin ocupar todo el espacio */
-    max-width: 30%; /* Limita el tamaño del input */
-    min-width: 200px; /* Evita que se haga muy pequeño */
+    flex-grow: 1; 
+    max-width: 30%; 
+    min-width: 200px; 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -523,8 +546,8 @@ a:hover{
 }
 
 .search-bar select {
-    flex-grow: 0; /* Evita que los select crezcan demasiado */
-    width: 5%; /* Ajusta el ancho de los select */
+    flex-grow: 0;
+    width: 5%; 
     min-width: 100px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -794,6 +817,72 @@ a:hover{
     }
   }
 
+   /*HOME-PROFESOR*/
+   .ProfesorDashboardPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+   .main-profesor-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    flex-grow: 1;
+    text-align: center;
+    margin-bottom: 5%;
+  }
+  
+  .dashboard {
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #daf1f7;
+    border-radius: 5%;
+    width: 50%;
+    gap: 150px;
+    padding: 20px;
+  }
+  
+  .owl-image img {
+    width: 500px;
+    height: auto;
+  }
+  
+  .welcome-section {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin-right: 10%;
+  }
+  
+  .welcome-section h1 {
+    margin-bottom: 50px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .welcome-section button {
+    display: block;
+    margin: 15px auto;
+    padding: 32px 95px;
+    font-size: 24px;
+  }
+  
+  .welcome-section button:hover {
+    padding: 32px 95px;
+    font-size: 24px;
+  }
+
   /*RESPONSIVE*/
   @media (max-width: 600px) {
     .popup-content {
@@ -804,4 +893,237 @@ a:hover{
       width: 25%;
       height: auto;
     }
+}
+
+
+
+  /*PROFILE*/
+  @media (max-width: 768px) {
+    .profile-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .profile-photo {
+      flex-basis: auto;
+      margin-bottom: 20px;
+    }
+  
+    .profile-details {
+      width: 90%;
+    }
+  
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .results-container {
+      padding: 10px;
+    }
+  
+    .result {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .profile-details h1 {
+      font-size: 18px;
+    }
+  
+    .details-grid div {
+      font-size: 12px;
+    }
+  
+    .result {
+      font-size: 12px;
+    }
+  }
+  /*REGISTER*/
+  @media (max-width: 1024px) {
+    .container-register {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .form-register, .logo-section {
+        max-width: 100%;
+    }
+
+    .logo-section h2 {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-register {
+        height: auto;
+        padding: 20px 0;
+    }
+
+    .logo-section h2 {
+        font-size: 40px;
+    }
+
+    .logo-section img {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-section h2 {
+        font-size: 32px;
+    }
+
+    .logo-section p {
+        font-size: 18px;
+    }
+}
+
+/*PROFESOR HOME*/
+@media screen and (max-width: 1024px) {
+  .dashboard {
+      width: 80%;  /* Hace más ancho el contenedor */
+      gap: 50px;  /* Reduce la separación */
+  }
+
+  .owl-image img {
+      width: 300px; /* Reduce la imagen */
+  }
+
+  .welcome-section h1 {
+      font-size: 30px;
+  }
+
+  .welcome-section button {
+      padding: 20px 65px;
+      font-size: 18px;
+  }
+}
+
+/* Móviles (pantallas menores a 768px) */
+@media screen and (max-width: 768px) {
+  .dashboard {
+      flex-direction: column; /* Cambia a diseño vertical */
+      align-items: center;
+      width: 90%;
+      gap: 20px;
+      padding: 20px;
+  }
+
+  .owl-image img {
+      width: 250px; /* Reduce más la imagen */
+  }
+
+  .welcome-section {
+      margin-right: 0;
+      text-align: center;
+  }
+
+  .welcome-section h1 {
+      font-size: 24px;
+  }
+
+  .welcome-section button {
+      padding: 15px 50px;
+      font-size: 16px;
+  }
+}
+
+/*LANDING PAGE*/
+@media (max-width: 1024px) {
+  .landing-page {
+      height: auto;
+      gap: 30px;
+  }
+
+  .titulo-landing-page {
+      width: 80%;
+  }
+
+  .botones-landing-page {
+      gap: 30px;
+  }
+
+  .texto-landing-page {
+      font-size: 28px;
+  }
+
+  .botones-landing-page {
+    margin-bottom: 20%;
+  }
+}
+
+@media (max-width: 768px) {
+  .titulo-landing-page {
+      width: 90%;
+  }
+
+  .botones-landing-page {
+    margin-bottom: 20%;
+      flex-direction: column;
+      gap: 20px;
+  }
+
+  .texto-landing-page {
+      font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .texto-landing-page {
+      font-size: 20px;
+  }
+
+  .botones-landing-page .boton {
+      padding: 12px 40px;
+      font-size: 14px;
+  }
+}
+
+/*HOME-PROFESOR*/
+@media (max-width: 1024px) {
+  .dashboard {
+    flex-direction: column;
+    width: 80%;
+    gap: 50px;
+    align-items: center;
+  }
+
+  .welcome-section {
+    margin-right: 0;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .welcome-section button {
+    padding: 24px 60px;
+    font-size: 20px;
+  }
+
+  .owl-image img {
+    width: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    width: 95%;
+    gap: 30px;
+  }
+
+  .welcome-section h1 {
+    font-size: 24px;
+  }
+
+  .welcome-section button {
+    padding: 20px 40px;
+    font-size: 18px;
+  }
+
+  .owl-image img {
+    width: 200px;
+  }
 }

@@ -14,21 +14,29 @@ function LandingPage() {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:8080/usuarios/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
       });
 
+      if (!response.ok) throw new Error("Error en el login");
+
       const token = await response.text();
-      if (response.ok) {
-        localStorage.setItem("jwtToken", token);
-        navigate("/home");
+
+      sessionStorage.setItem("token", token);
+
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userRole = decodedToken.roles[0];
+      sessionStorage.setItem("role", userRole);
+      if (userRole === "ROLE_ALUMNO") {
+          navigate("/home");
       } else {
-        throw new Error("Error en el login, por favor verifica tus credenciales.");
+          navigate("/teacher-dashboard"); 
       }
-    } catch (error) {
-      console.error("Error en el login", error);
-    }
+
+  } catch (error) {
+      console.error("Error en el login:", error);
+  }
   };
 
   const handleRegister = () => {

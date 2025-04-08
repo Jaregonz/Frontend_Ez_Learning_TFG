@@ -7,7 +7,8 @@ import LandingPage from './components/LandingPage';
 import HomePage from './components/HomePage';
 import RegisterPage from './components/RegisterPage';
 import TestsPage from './components/TestsPage';
-
+import ProfilePage from './components/ProfilePage';
+import ProfesorHomePage from './components/ProfesorHomePage';
 function App() {
   return (
     <Router>
@@ -16,6 +17,8 @@ function App() {
       <Route path="/home" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/tests" element={<TestsPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/teacher-dashboard" element={<ProfesorHomePage />} />
     </Routes>
   </Router>
   );

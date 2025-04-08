@@ -51,5 +51,6 @@ header nav ul li a {
 header nav ul li a:hover {
     color: #FFFFFF;
     text-decoration: none;
+    cursor: pointer;
 }
 

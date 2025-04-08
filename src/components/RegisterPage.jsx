@@ -4,7 +4,7 @@ import '../App.css';
 import '../styles/style.css';
 import '../styles/footer.css';
 import '../styles/header.css';
-
+import Footer from './Footer';
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -107,30 +107,8 @@ const RegisterPage = () => {
           </div>
         </div>
       </main>
-
-      <footer>
-        <div className="menu">
-          <a href="#">Inicio</a>
-          <a href="#">Sobre nosotros</a>
-          <a href="#">Contáctanos</a>
-          <a href="#">Preguntas Frecuentes</a>
-        </div>
-
-        <div className="social-icons">
-          <img src="./img/logos-footerpng.png" alt="Social media icons" />
-        </div>
-
-        <div className="footer-bottom">
-          <div className="language">
-            <a href="#">Español</a>
-            <a href="#">Inglés</a>
-            <a href="#">Francés</a>
-          </div>
-          <div className="rights">
-            Non Copyrighted © 2024 Uploaded by EZ Learning
-          </div>
-        </div>
-      </footer>
+      <Footer />
+      
     </div>
   );
 };
