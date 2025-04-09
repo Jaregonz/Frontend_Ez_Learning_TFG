@@ -9,6 +9,7 @@ import RegisterPage from './components/RegisterPage';
 import TestsPage from './components/TestsPage';
 import ProfilePage from './components/ProfilePage';
 import ProfesorHomePage from './components/ProfesorHomePage';
+import CreateTestPage from './components/CreateTestPage';
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
       <Route path="/tests" element={<TestsPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/teacher-dashboard" element={<ProfesorHomePage />} />
+      <Route path="/create-test" element={<CreateTestPage />} />
     </Routes>
   </Router>
   );

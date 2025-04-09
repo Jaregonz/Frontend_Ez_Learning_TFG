@@ -9,6 +9,9 @@ import Footer from './Footer';
 
 function ProfesorHomePage() {
     const navigate = useNavigate();
+    const handleCrearTest = () => {
+        navigate("/create-test");
+    }
   return (
     <div className="ProfesorDashboardPage">
     <Header />
@@ -19,7 +22,7 @@ function ProfesorHomePage() {
             </div>
             <div class="welcome-section">
                 <h1>BIENVENIDO PROFESOR, <br/> ¿QUÉ DESEAS HACER HOY?</h1>
-                <button className='boton'>CREAR TESTS</button>
+                <button className='boton' onClick={handleCrearTest}>CREAR TESTS</button>
                 <button className='boton'>VER DATOS DEL ALUMNADO</button>
                 <button className='boton'>AGREGAR NUEVO EXAMEN</button>
             </div>

@@ -10,7 +10,7 @@ a:hover{
   }
   .boton {
       background-color: #141D36;
-      color: #FFFFFF !important;
+      color: #FFFFFF;
       font-family: Dosis; 
       font-size: 16px;
       font-weight: bold;
@@ -59,14 +59,6 @@ a:hover{
   }
 
   /* LANDING PAGE */
-    /*.main-landing-page {
-        background-image: url("/img/imagenEstudiante.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-
-    }*/
     .LandingPage {
       display: flex;
       flex-direction: column;
@@ -180,7 +172,6 @@ a:hover{
     border-radius: 5px;
 }
 
-/* Botón de cerrar */
 .close {
     position: absolute;
     right: 10px;
@@ -340,7 +331,6 @@ a:hover{
     object-fit: cover; 
   }
   
-  /* Detalles del perfil */
   .profile-details {
     flex: 1;
     background-color: #e8f6fe;
@@ -352,7 +342,6 @@ a:hover{
     gap: 10px;
   }
   
-  /* Título del perfil */
   .profile-details h1 {
     font-size: 20px;
     color: #141D36;
@@ -360,26 +349,22 @@ a:hover{
     text-align: center;
   }
   
-  /* Estilo de la cuadrícula de detalles */
   .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
   }
   
-  /* Estilo de cada celda de la cuadrícula */
   .details-grid div {
     font-size: 14px;
     color: #000000;
     display: grid;
   }
   
-  /* Estilo de los títulos dentro de los detalles */
   .details-grid div span {
     font-weight: bold;
   }
   
-  /* Contenedor de los resultados */
   .results-container {
     width: 100%;
     max-width: 1200px;
@@ -390,7 +375,6 @@ a:hover{
     margin-top: 20px;
   }
   
-  /* Título de la sección de resultados */
   .results-container h1 {
     font-size: 20px;
     color: #141D36;
@@ -398,7 +382,6 @@ a:hover{
     text-align: center;
   }
   
-  /* Estilo de la línea bajo el título */
   .results-container h2 span {
     display: block;
     width: 60px;
@@ -407,7 +390,6 @@ a:hover{
     margin: 0 auto;
   }
   
-  /* Estilo de cada resultado */
   .result {
     background-color: #d9effb;
     padding: 10px;
@@ -419,7 +401,7 @@ a:hover{
     font-size: 14px;
   }
   
-  /* Estilo de cada celda en los resultados */
+ 
   .result div {
     font-size: 14px;
     color: #000000;
@@ -883,10 +865,78 @@ a:hover{
     font-size: 24px;
   }
 
+  /*CREATE TEST*/
+
+  .main-create-test {
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    background-color: #FFFFFF;
+    flex-grow: 1;
+    text-align: center;
+    margin-bottom: 5%;
+    margin-top: 50px;
+  }
+
+  .fila-selects{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .main-create-test h1{
+    margin-bottom:50px;
+    font-size: 24px;
+  }
+  .preguntas-container {
+    border: 2px solid #59a8ff;
+    border-radius: 15px;
+    background-color: #e1f4fa;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: left;
+    margin: 50px 0;
+  }
+
+  .main-create-test label{
+    font-family: 'Dosis';
+    font-weight: bold;
+   }
+
+   .preguntas p {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+   .delete-btn{
+    background-color: #141D36;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-weight: bold;
+   }
+  
+   .botones-crear-test{
+    display: flex;
+    justify-content: space-between;
+   }
+
+
+
+
   /*RESPONSIVE*/
   @media (max-width: 600px) {
     .popup-content {
-        width: 90%; /* Usa casi todo el ancho disponible en móviles */
+        width: 90%;
         height: auto;
     }
     .illustration{
@@ -983,12 +1033,12 @@ a:hover{
 /*PROFESOR HOME*/
 @media screen and (max-width: 1024px) {
   .dashboard {
-      width: 80%;  /* Hace más ancho el contenedor */
-      gap: 50px;  /* Reduce la separación */
+      width: 80%;
+      gap: 50px;  
   }
 
   .owl-image img {
-      width: 300px; /* Reduce la imagen */
+      width: 300px; 
   }
 
   .welcome-section h1 {
@@ -1001,10 +1051,9 @@ a:hover{
   }
 }
 
-/* Móviles (pantallas menores a 768px) */
 @media screen and (max-width: 768px) {
   .dashboard {
-      flex-direction: column; /* Cambia a diseño vertical */
+      flex-direction: column;
       align-items: center;
       width: 90%;
       gap: 20px;
@@ -1012,7 +1061,7 @@ a:hover{
   }
 
   .owl-image img {
-      width: 250px; /* Reduce más la imagen */
+      width: 250px;
   }
 
   .welcome-section {
