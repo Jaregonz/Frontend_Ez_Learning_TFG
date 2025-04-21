@@ -10,6 +10,8 @@ import TestsPage from './components/TestsPage';
 import ProfilePage from './components/ProfilePage';
 import ProfesorHomePage from './components/ProfesorHomePage';
 import CreateTestPage from './components/CreateTestPage';
+import StartTestScreen from './components/StartTestScreen';
+import TestPage from './components/TestPage';
 function App() {
   return (
     <Router>
@@ -21,6 +23,8 @@ function App() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/teacher-dashboard" element={<ProfesorHomePage />} />
       <Route path="/create-test" element={<CreateTestPage />} />
+      <Route path="/start-test/:id" element={<StartTestScreen />} />
+      <Route path="/test/:id" element={<TestPage />} />
     </Routes>
   </Router>
   );

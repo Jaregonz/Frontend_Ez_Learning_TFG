@@ -63,7 +63,7 @@ const Header = () => {
         <header>
             <a onClick={handleNavigateHome}>
                 <div className="logo">
-                    <img src="./img/Icono EzLearning.png" alt="Logo" />
+                    <img src="../img/Icono EzLearning.png" alt="Logo" />
                 </div>
             </a>
             <nav>

@@ -8,6 +8,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 const TestsPage = () => {
+  const navigate = useNavigate();
   const [tests, setTests] = useState([]);
   const [titulo, setTitulo] = useState("");
   const [tipo, setTipo] = useState("");
@@ -58,7 +59,8 @@ const TestsPage = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
-        if (!response.ok) throw new Error("Error al obtener los tests", response);
+        if (!response.ok)
+          throw new Error("Error al obtener los tests", response);
         return response.json();
       })
       .then((data) => setTests(data))
@@ -114,8 +116,15 @@ const TestsPage = () => {
             <tbody>
               {tests.map((test) => (
                 <tr key={test.id}>
-                  <td>
-                    <a href={`./test/${test.id}`}>{test.titulo}</a>
+                  <td className="test-title">
+                    <span
+                      onClick={() => {
+                        console.log(test);
+                        navigate(`/start-test/${test.id}`);
+                      }}
+                    >
+                      {test.titulo}
+                    </span>
                   </td>
                   <td>{test.dificultad}</td>
                   <td>{test.tipo}</td>

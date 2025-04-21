@@ -228,7 +228,7 @@ a:hover{
     flex-direction: column;
   }
 
-  input, select {
+  .register input, .nivel {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -353,6 +353,7 @@ a:hover{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+    text-align: center;
   }
   
   .details-grid div {
@@ -564,6 +565,10 @@ a:hover{
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+  .test-title{
+    cursor: pointer;
+  }
   
   .test-table td{
     padding: 25px;
@@ -661,6 +666,57 @@ a:hover{
   
   .test-box .details p span {
     font-weight: bold;
+  }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .test-popup {
+    width: fit-content;
+    height: fit-content;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .test-popup .logo-owlie{
+    width: 35% !important;
+    margin-bottom: 20px;
+  }
+  .test-popup h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #141D36;
+    font-family: Dosis;
+  }
+
+  .test-popup .options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .botones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .botones .boton{
+    margin-top: 0px !important;
   }
   
   /*CONTACT*/
@@ -931,9 +987,137 @@ a:hover{
    }
 
 
+   /*START TEST*/
+   .StartTestScreen {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+   .main-start-test {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    margin-top: 50px;
+  }
+  
+  .student-image img {
+    width: 90%;
+    height: auto;
+  }
+  
+  .test-box {
+    position: absolute;
+    background-color: #DAF1F7;
+    font-family: 'Dosis';
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 400px;
+    z-index: 10; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-left: 20%;
+  }
+  
+  .test-box h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #141D36;
+  }
+  
+  .test-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .test-box ul li {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+  }
+  
+/* TEST */
+.TestPageScreen {
+  display: flex;
+  height: 100vh; 
+  flex-direction: column; 
+}
 
 
-  /*RESPONSIVE*/
+.question {
+  margin-bottom: 20px; 
+  text-align: center; 
+}
+
+.test-container {
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 1.2rem;
+  color: #0a2a4a;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.question {
+  margin-bottom: 30px;
+}
+
+.question p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.question label {
+  display: block;
+  margin-left: 20px;
+  margin-bottom: 8px;
+}
+.temporizador {
+  font-size: 1.1rem;
+  color: #c0392b;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.respuesta-label {
+  margin-top:20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.respuesta-label input[type="radio"] {
+  margin-left: 10px; 
+}
+
+.respuesta-label span {
+  margin-left: 25px;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.test-container .boton{
+  margin-top:50px;
+}
+
+/*RESPONSIVE*/
   @media (max-width: 600px) {
     .popup-content {
         width: 90%;
@@ -1174,5 +1358,53 @@ a:hover{
 
   .owl-image img {
     width: 200px;
+  }
+}
+
+/*START TEST*/
+@media (max-width: 768px) {
+  .main-start-test {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    margin-top: 20px;
+  }
+
+  .student-image img {
+    width: 100%;
+  }
+
+  .test-box {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: none;
+    margin-left: 0;
+  }
+
+  .test-box h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .test-box ul li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .test-box {
+    padding: 1rem;
+  }
+
+  .test-box h2 {
+    font-size: 1.2rem;
+  }
+
+  .test-box ul li {
+    font-size: 0.9rem;
   }
 }

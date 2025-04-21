@@ -14,7 +14,7 @@ const Footer = () => {
             </div>
 
             <div className="social-icons">
-                <img src="./img/logos-footerpng.png" alt="Redes sociales"/>
+                <img src="../img/logos-footerpng.png" alt="Redes sociales"/>
             </div>
 
             <div className="footer-bottom">
