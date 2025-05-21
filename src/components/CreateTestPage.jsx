@@ -3,6 +3,7 @@ import "../styles/style.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateTestPage = () => {
   const [titulo, setTitulo] = useState("");
@@ -14,25 +15,34 @@ const CreateTestPage = () => {
   const [correcta, setCorrecta] = useState("1");
   const [preguntas, setPreguntas] = useState([]);
 
+  const navigate = useNavigate();
+
   const handleOpcionChange = (index, value) => {
     const nuevasOpciones = [...opciones];
     nuevasOpciones[index] = value;
     setOpciones(nuevasOpciones);
   };
 
+  const resetearFormularioPregunta = () => {
+    setPregunta("");
+    setOpciones(["", "", "", ""]);
+    setCorrecta("1");
+  };
+
   const añadirPregunta = () => {
-    if (!pregunta.trim()) return;
+    if (!pregunta.trim() || opciones.some((op) => !op.trim())) {
+      alert("Completa la pregunta y todas las opciones.");
+      return;
+    }
 
     const nuevaPregunta = {
       texto: pregunta,
-      opciones,
+      opciones: [...opciones],
       correcta,
     };
 
     setPreguntas([...preguntas, nuevaPregunta]);
-    setPregunta("");
-    setOpciones(["", "", "", ""]);
-    setCorrecta("1");
+    resetearFormularioPregunta();
   };
 
   const eliminarPregunta = (index) => {
@@ -41,8 +51,15 @@ const CreateTestPage = () => {
   };
 
   const handleCrearTest = async () => {
+    if (!titulo || !dificultad || !tipo || !tiempo || preguntas.length === 0) {
+      alert(
+        "Por favor, completa todos los campos del test y añade al menos una pregunta."
+      );
+      return;
+    }
+
     const usuarioId = 1;
-  
+
     const test = {
       usuarioId,
       tipo,
@@ -50,50 +67,57 @@ const CreateTestPage = () => {
       dificultad,
       cantidadPreguntas: preguntas.length,
       tiempo: parseInt(tiempo),
-      preguntas: preguntas.map(p => ({
+      preguntas: preguntas.map((p) => ({
         contenidoPregunta: p.texto,
         respuestas: p.opciones.map((opcion, idx) => ({
           contenido: opcion,
-          esCorrecta: parseInt(p.correcta) === idx + 1
-        }))
-      }))
+          esCorrecta: parseInt(p.correcta) - 1 === idx,
+        })),
+      })),
     };
+
     const token = sessionStorage.getItem("token");
+
     try {
-        console.log("Test a crear:", test);
-        const response = await fetch("http://localhost:8080/tests/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify(test),
-        });
-      
-        if (!response.ok) {
-          throw new Error("Error en el registro");
-        }
-      
-        alert("Test creado con éxito");
-      } catch (error) {
-        alert("Hubo un error en el registro, inténtalo de nuevo.");
-        console.error(error);
+      console.log("Test a crear:", test);
+      const response = await fetch("http://localhost:8080/tests/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(test),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en el registro");
       }
+
+      alert("Test creado con éxito");
+      navigate("/teacher-dashboard");
+    } catch (error) {
+      alert("Hubo un error en el registro, inténtalo de nuevo.");
+      console.error(error);
     }
+  };
+
   return (
     <div className="CreateTestPage">
       <Header />
       <main className="main-create-test">
         <div className="create-test-container">
-        <h1>CREAR TEST<span></span></h1>
+          <h1>
+            CREAR TEST<span></span>
+          </h1>
 
           <label>TÍTULO</label>
-          <input value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+          <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
 
           <div className="fila-selects">
             <div>
               <label>DIFICULTAD</label>
               <select
+                className="select-dificultad"
                 value={dificultad}
                 onChange={(e) => setDificultad(e.target.value)}
               >
@@ -126,9 +150,10 @@ const CreateTestPage = () => {
             </div>
           </div>
 
-
           <label>PREGUNTA</label>
           <input
+          className="input-pregunta"
+            type="text"
             value={pregunta}
             onChange={(e) => setPregunta(e.target.value)}
           />
@@ -137,6 +162,7 @@ const CreateTestPage = () => {
             <div key={idx}>
               <label>OPCIÓN {idx + 1}</label>
               <input
+                type="text"
                 value={op}
                 onChange={(e) => handleOpcionChange(idx, e.target.value)}
               />
@@ -145,6 +171,7 @@ const CreateTestPage = () => {
 
           <label>OPCIÓN CORRECTA</label>
           <select
+            className="select-opcion-correcta"
             value={correcta}
             onChange={(e) => setCorrecta(e.target.value)}
           >
@@ -162,25 +189,32 @@ const CreateTestPage = () => {
             <h3>PREGUNTAS</h3>
             <div className="preguntas">
               {preguntas.map((p, i) => (
-                <p key={i}>
-                  {i + 1}. {p.texto}
-
+                <div key={i} className="pregunta-preview">
+                  <p>
+                    {i + 1}. {p.texto}
+                  </p>
                   <button
                     className="delete-btn"
                     onClick={() => eliminarPregunta(i)}
                   >
                     ✖
                   </button>
-                </p>
+                </div>
               ))}
             </div>
           </div>
 
           <div className="botones-crear-test">
-            <button className="boton" onClick={handleCrearTest}>
+            <button
+              className="boton"
+              onClick={handleCrearTest}
+              disabled={preguntas.length === 0}
+            >
               CREAR TEST
             </button>
-            <button className="boton">VOLVER</button>
+            <button className="boton" onClick={() => navigate("/")}>
+              VOLVER
+            </button>
           </div>
         </div>
       </main>

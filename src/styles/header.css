@@ -17,6 +17,7 @@
   }
   
   header .logo {
+    cursor: pointer;
     display: flex;
     align-items: center;
     flex-shrink: 0;

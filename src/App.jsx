@@ -12,6 +12,7 @@ import ProfesorHomePage from './components/ProfesorHomePage';
 import CreateTestPage from './components/CreateTestPage';
 import StartTestScreen from './components/StartTestScreen';
 import TestPage from './components/TestPage';
+import EditUserPage from './components/EditUserPage';
 function App() {
   return (
     <Router>
@@ -25,6 +26,7 @@ function App() {
       <Route path="/create-test" element={<CreateTestPage />} />
       <Route path="/start-test/:id" element={<StartTestScreen />} />
       <Route path="/test/:id" element={<TestPage />} />
+      <Route path="/edit-user" element={<EditUserPage />} />
     </Routes>
   </Router>
   );

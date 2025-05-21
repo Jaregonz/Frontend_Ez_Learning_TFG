@@ -224,8 +224,9 @@ function TestPage() {
             </div>
           </div>
         )}
+              
       </div>
-      <Footer />
+        <Footer />
     </div>
   );
 }
