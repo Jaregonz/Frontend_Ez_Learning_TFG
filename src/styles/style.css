@@ -419,6 +419,7 @@ input[type="password"] {
   font-size: 14px;
   color: #000000;
   display: grid;
+  margin-left: 10px;
 }
 
 /*HOME*/

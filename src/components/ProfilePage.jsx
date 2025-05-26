@@ -13,6 +13,7 @@ const ProfilePage = () => {
   const user = location.state?.user;
 
   const [profesorInfo, setProfesorInfo] = useState(null);
+  const [mejoresTests, setMejoresTests] = useState([]);
 
   const formateFecha = (fecha) => {
     if (!fecha) return "";
@@ -25,8 +26,14 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (user?.profesor) {
-      fetch(`http://localhost:8080/usuarios/${user.profesor}`)
+    if (!user) return;
+    const token = sessionStorage.getItem("token");
+    if (user.idProfesor) {
+      fetch(`http://localhost:8080/usuarios/id/${user.idProfesor}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((res) => {
           if (!res.ok) {
             throw new Error("Error al obtener el profesor");
@@ -40,8 +47,46 @@ const ProfilePage = () => {
           console.error("Error al obtener el profesor:", error);
         });
     }
-  }, [user?.profesor]);
 
+    if (user.id) {
+      fetch(`http://localhost:8080/puntuaciones/usuario/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Error al obtener los tests");
+          }
+          return res.json();
+        })
+        .then((puntuaciones) => {
+          console.log("Puntuaciones obtenidas:", puntuaciones);
+          const puntuacionesConPorcentaje = puntuaciones.map((puntuacion) => {
+            const [obtenidasStr, totalStr] = puntuacion.puntuacion.split("/");
+            const obtenidas = Number(obtenidasStr) || 0;
+            const total = Number(totalStr) || puntuacion.totalPreguntas || 0;
+            const porcentaje = total > 0 ? (obtenidas / total) * 100 : 0;
+
+            return {
+              ...puntuacion,
+              porcentaje,
+              obtenidas,
+              total,
+            };
+          });
+
+          const top5 = puntuacionesConPorcentaje
+            .sort((a, b) => b.porcentaje - a.porcentaje)
+            .slice(0, 5);
+          console.log("Top 5 tests:", top5);
+          setMejoresTests(top5);
+        })
+        .catch((error) => {
+          console.error("Error al obtener los tests:", error);
+        });
+    }
+  }, [user]);
   if (!user) {
     return <p>Cargando los datos del perfil...</p>;
   }
@@ -82,7 +127,7 @@ const ProfilePage = () => {
               </div>
               <div>
                 <span className="semi-title">PROFESOR:</span>{" "}
-                {user.profesor
+                {user.idProfesor
                   ? profesorInfo
                     ? `${profesorInfo.nombre} ${profesorInfo.apellidos}`
                     : "Cargando..."
@@ -103,20 +148,27 @@ const ProfilePage = () => {
           <h1>
             MEJORES RESULTADOS<span></span>
           </h1>
-          <div className="result">
-            <div>
-              <span className="semi-title">TÍTULO:</span> Test 1: Present Simple
-            </div>
-            <div>
-              <span className="semi-title">NIVEL:</span> B1
-            </div>
-            <div>
-              <span className="semi-title">TIPO:</span> Grammar
-            </div>
-            <div>
-              <span className="semi-title">PUNTUACIÓN:</span> 20/20
-            </div>
-          </div>
+          {mejoresTests.length === 0 ? (
+            <p>No hay resultados disponibles.</p>
+          ) : (
+            mejoresTests.map((test, index) => (
+              <div className="result" key={index}>
+                <div>
+                  <span className="semi-title">TÍTULO:</span> {test.titulo}
+                </div>
+                <div>
+                  <span className="semi-title">NIVEL:</span> {test.nivel}
+                </div>
+                <div>
+                  <span className="semi-title">TIPO:</span> {test.tipo}
+                </div>
+                <div>
+                  <span className="semi-title">PUNTUACIÓN:</span>{" "}
+                  {`${test.obtenidas}/${test.total} (${Math.round(test.porcentaje)}%)`}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </main>
       <Footer />
