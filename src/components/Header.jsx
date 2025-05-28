@@ -1,13 +1,12 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../styles/style.css';
 import '../styles/header.css';
 
 const Header = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const token = location.state?.token;
+
 
     const handleLogout = () => {
         sessionStorage.removeItem("token");
@@ -59,6 +58,15 @@ const Header = () => {
         }
       };
 
+    const handleNavigateToExams = () => {
+        const token = sessionStorage.getItem("token"); 
+        if (token) {
+          navigate('/exams', { state: { token } });
+        } else {
+          alert('Por favor, inicie sesión para acceder a los tests.');
+        }
+      };
+
     return (
         <header>
             <a onClick={handleNavigateHome}>
@@ -71,7 +79,7 @@ const Header = () => {
                     <li>
                         <a onClick={handleNavigateToTests} className="profile-button">TESTS</a>
                     </li>
-                    <li><a href="/404">EXÁMENES</a></li>
+                    <li><a onClick={handleNavigateToExams}>EXÁMENES</a></li>
                     <li>
                         <a onClick={handleProfileClick} className="profile-button">PERFIL</a>
                     </li>

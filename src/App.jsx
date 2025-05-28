@@ -13,6 +13,8 @@ import CreateTestPage from './components/CreateTestPage';
 import StartTestScreen from './components/StartTestScreen';
 import TestPage from './components/TestPage';
 import EditUserPage from './components/EditUserPage';
+import ExamenesPage from './components/ExamenesPage';
+import CreateExamenPage from './components/CreateExamenPage';
 function App() {
   return (
     <Router>
@@ -27,6 +29,9 @@ function App() {
       <Route path="/start-test/:id" element={<StartTestScreen />} />
       <Route path="/test/:id" element={<TestPage />} />
       <Route path="/edit-user" element={<EditUserPage />} />
+      <Route path="/exams" element={<ExamenesPage />} />
+      <Route path="/create-exam" element={<CreateExamenPage />} />
+
     </Routes>
   </Router>
   );

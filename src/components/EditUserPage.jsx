@@ -65,7 +65,7 @@ const EditUserPage = () => {
   if (!user) return <p>Cargando datos del usuario...</p>;
 
   return (
-    <div>
+    <div className="EditUserPage">
       <Header />
       <div className="edit-user-page">
         <form onSubmit={handleSubmit} className="edit-user-form">
