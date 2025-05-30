@@ -15,6 +15,7 @@ import TestPage from './components/TestPage';
 import EditUserPage from './components/EditUserPage';
 import ExamenesPage from './components/ExamenesPage';
 import CreateExamenPage from './components/CreateExamenPage';
+import EntregasListPage from './components/EntregasListPage';
 function App() {
   return (
     <Router>
@@ -31,6 +32,7 @@ function App() {
       <Route path="/edit-user" element={<EditUserPage />} />
       <Route path="/exams" element={<ExamenesPage />} />
       <Route path="/create-exam" element={<CreateExamenPage />} />
+      <Route path="/entregas/:id" element={<EntregasListPage />} />
 
     </Routes>
   </Router>

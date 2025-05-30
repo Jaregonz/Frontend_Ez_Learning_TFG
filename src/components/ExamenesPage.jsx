@@ -8,7 +8,7 @@ import "../styles/style.css";
 export default function ExamenesPage() {
   const [examenes, setExamenes] = useState([]);
   const [examenSeleccionado, setExamenSeleccionado] = useState(null);
-  const [role, setRole] = useState(sessionStorage.getItem("role"));
+  const role = sessionStorage.getItem("role");
   const navigate = useNavigate();
 
   const handleNuevoExamen = () => {

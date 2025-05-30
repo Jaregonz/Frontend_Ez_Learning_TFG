@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/modalEntregaExamen.css";
+import "../styles/style.css";
 
 export default function ModalEntregaExamen({ examen, onClose }) {
   const [archivo, setArchivo] = useState(null);
