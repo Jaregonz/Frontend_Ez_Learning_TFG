@@ -37,6 +37,7 @@ function LandingPage() {
 
       const user = await responseUser.json();
       sessionStorage.setItem("user", JSON.stringify(user));
+      console.log("Usuario:", sessionStorage.getItem("user"));
 
       if (userRole === "ROLE_ALUMNO") {
         navigate("/home");

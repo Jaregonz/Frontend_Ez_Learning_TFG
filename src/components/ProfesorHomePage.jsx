@@ -21,6 +21,20 @@ function ProfesorHomePage() {
       );
     }
   };
+  const handleClickAlumnosList = () => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      const user = sessionStorage.getItem("user");
+      const userData = JSON.parse(user);
+      const profesorId = userData.id;
+      navigate("/alumnos");
+    } else {
+      alert(
+        "La sesión ha expirado o no se ha iniciado sesión. Por favor, inicie sesión nuevamente."
+      );
+    }
+  }
+
   return (
     <div className="ProfesorDashboardPage">
       <Header />
@@ -36,7 +50,7 @@ function ProfesorHomePage() {
             <button className="boton" onClick={handleCrearTest}>
               CREAR TESTS
             </button>
-            <button className="boton">VER DATOS DEL ALUMNADO</button>
+            <button className="boton" onClick={handleClickAlumnosList}>VER DATOS DEL ALUMNADO</button>
             <button className="boton" onClick={handleNuevoExamen}>AGREGAR NUEVO EXAMEN</button>
           </div>
         </div>

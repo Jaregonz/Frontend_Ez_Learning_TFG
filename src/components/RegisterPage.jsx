@@ -151,14 +151,6 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
 
-              <label htmlFor="nivel">Nivel</label>
-              <select id="nivel" name="nivel" required onChange={handleChange}>
-                <option value="">Selecciona un nivel</option>
-                <option value="B1">B1</option>
-                <option value="B2">B2</option>
-                <option value="C1">C1</option>
-              </select>
-
               <label htmlFor="imagenPerfil">Imagen de Perfil (URL)</label>
               <input
                 type="text"
@@ -177,6 +169,14 @@ const RegisterPage = () => {
                 />
                 <label htmlFor="rol">Soy profesor</label>
               </div>
+
+              <label htmlFor="nivel">Nivel</label>
+              <select id="nivel" name="nivel" required onChange={handleChange} disabled={formData.rol === "PROFESOR"}>
+                <option value="">Selecciona un nivel</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="C1">C1</option>
+              </select>
               <label htmlFor="profesor">Profesor asignado</label>
               <select
                 id="profesor"
