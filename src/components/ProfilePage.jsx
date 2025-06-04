@@ -97,7 +97,7 @@ const ProfilePage = () => {
       <main className="main-profile">
         <div className="profile-container">
           <div className="profile-photo">
-            <img src={user.imagenPerfil} alt="Foto de perfil" />
+            <img src={`http://localhost:8080${user.imagenPerfil}`} alt="Foto de perfil" />
             <button
               className="boton"
               onClick={() => navigate("/edit-user", { state: { user } })}

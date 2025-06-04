@@ -47,11 +47,24 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formDataToSend = new FormData();
+    formDataToSend.append("username", formData.username);
+    formDataToSend.append("password", formData.password);
+    formDataToSend.append("correoElectronico", formData.correoElectronico);
+    formDataToSend.append("nombre", formData.nombre);
+    formDataToSend.append("apellidos", formData.apellidos);
+    formDataToSend.append("fechaNacimiento", formData.fechaNacimiento);
+    formDataToSend.append("nivel", formData.nivel);
+    formDataToSend.append("rol", formData.rol);
+    formDataToSend.append("idProfesor", formData.idProfesor);
+    if (formData.imagenPerfil) {
+      formDataToSend.append("imagenPerfil", formData.imagenPerfil);
+    }
+
     try {
       const response = await fetch("http://localhost:8080/usuarios/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (!response.ok) {
@@ -59,7 +72,6 @@ const RegisterPage = () => {
       }
 
       alert("Registro exitoso");
-      console.log("Registro exitoso:", await response.json());
       navigate("/");
     } catch (error) {
       alert("Hubo un error en el registro, inténtalo de nuevo.");
@@ -151,13 +163,18 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
 
-              <label htmlFor="imagenPerfil">Imagen de Perfil (URL)</label>
+              <label htmlFor="imagenPerfil">Imagen de Perfil</label>
               <input
-                type="text"
+                type="file"
                 id="imagenPerfil"
                 name="imagenPerfil"
-                placeholder="URL de la imagen de perfil"
-                onChange={handleChange}
+                accept="image/*"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    imagenPerfil: e.target.files[0],
+                  }))
+                }
               />
 
               <div className="checkbox-group">
@@ -171,7 +188,13 @@ const RegisterPage = () => {
               </div>
 
               <label htmlFor="nivel">Nivel</label>
-              <select id="nivel" name="nivel" required onChange={handleChange} disabled={formData.rol === "PROFESOR"}>
+              <select
+                id="nivel"
+                name="nivel"
+                required
+                onChange={handleChange}
+                disabled={formData.rol === "PROFESOR"}
+              >
                 <option value="">Selecciona un nivel</option>
                 <option value="B1">B1</option>
                 <option value="B2">B2</option>
