@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/style.css";
 import "../styles/footer.css";
 import "../styles/header.css";
@@ -7,28 +7,53 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 const EditUserPage = () => {
-  const location = useLocation();
-  const user = location.state?.user;
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [imagenFile, setImagenFile] = useState(null);
 
   const [formData, setFormData] = useState({
     nombre: "",
     apellidos: "",
     correoElectronico: "",
     fechaNacimiento: "",
+    nivel: "",
     imagenPerfil: "",
   });
 
+  const userId = sessionStorage.getItem("userId");
+
   useEffect(() => {
-    if (user) {
-      setFormData({
-        nombre: user.nombre,
-        apellidos: user.apellidos,
-        correoElectronico: user.correoElectronico,
-        fechaNacimiento: user.fechaNacimiento?.split("T")[0] || "",
-        imagenPerfil: user.imagenPerfil || "",
-      });
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/usuarios/id/${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+
+        if (!response.ok) throw new Error("Error al cargar datos del usuario");
+
+        const data = await response.json();
+        setUser(data);
+        setFormData({
+          nombre: data.nombre || "",
+          apellidos: data.apellidos || "",
+          correoElectronico: data.correoElectronico || "",
+          fechaNacimiento: data.fechaNacimiento?.split(" ")[0] || "",
+          nivel: data.nivel || "",
+          imagenPerfil: data.imagenPerfil || "",
+        });
+      } catch (error) {
+        console.error(error);
+        alert("No se pudo cargar el usuario");
+      }
+    };
+
+    if (userId) {
+      fetchUser();
     }
-  }, [user]);
+  }, [userId  ]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,28 +63,37 @@ const EditUserPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = sessionStorage.getItem("token");
-    console.log("Token:", token);
+    const userEditado = new FormData();
+    userEditado.append("nombre", formData.nombre);
+    userEditado.append("apellidos", formData.apellidos);
+    userEditado.append("correoElectronico", formData.correoElectronico);
+    userEditado.append("fechaNacimiento", formData.fechaNacimiento);
+    userEditado.append("nivel", formData.nivel);
 
-    fetch(`http://localhost:8080/usuarios/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-       },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.text().then((msg) => {
-            throw new Error(msg);
-          });
-        }
-        alert("Datos actualizados correctamente");
-      })
-      .catch((err) => alert("Error al actualizar: " + err.message));
+    if (imagenFile) {
+      userEditado.append("imagenPerfil", imagenFile);
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/usuarios/${userId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: userEditado,
+      });
+
+      if (!response.ok) throw new Error("Error al actualizar");
+
+      alert("Perfil actualizado");
+      navigate("/profile");
+    } catch (error) {
+      alert("Error al actualizar el perfil");
+      console.error(error);
+    }
   };
 
   if (!user) return <p>Cargando datos del usuario...</p>;
@@ -69,9 +103,8 @@ const EditUserPage = () => {
       <Header />
       <div className="edit-user-page">
         <form onSubmit={handleSubmit} className="edit-user-form">
-          <h1>
-            EDITAR USUARIO<span></span>
-          </h1>
+          <h1>EDITAR USUARIO</h1>
+
           <div className="form-group">
             <label>Nombre</label>
             <input
@@ -117,12 +150,12 @@ const EditUserPage = () => {
           </div>
 
           <div className="form-group">
-            <label>Imagen de Perfil (URL)</label>
+            <label>Imagen de Perfil</label>
             <input
-              type="text"
+              type="file"
               name="imagenPerfil"
-              value={formData.imagenPerfil}
-              onChange={handleChange}
+              accept="image/*"
+              onChange={(e) => setImagenFile(e.target.files?.[0] || null)}
             />
           </div>
 

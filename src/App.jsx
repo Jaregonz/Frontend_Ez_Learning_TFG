@@ -17,6 +17,7 @@ import ExamenesPage from './components/ExamenesPage';
 import CreateExamenPage from './components/CreateExamenPage';
 import EntregasListPage from './components/EntregasListPage';
 import AlumnosListPage from './components/AlumnosListPage';
+import AboutUsPage from './components/AboutUsPage';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
       <Route path="/create-exam" element={<CreateExamenPage />} />
       <Route path="/entregas/:id" element={<EntregasListPage />} />
       <Route path="/alumnos" element={<AlumnosListPage />} />
+      <Route path="/about-us" element={<AboutUsPage />} />
 
     </Routes>
   </Router>

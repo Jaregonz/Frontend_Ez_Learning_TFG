@@ -9,9 +9,8 @@ import Footer from "./Footer";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const user = location.state?.user;
-
+  
+  const [userData, setUserData] = useState(null);
   const [profesorInfo, setProfesorInfo] = useState(null);
   const [mejoresTests, setMejoresTests] = useState([]);
 
@@ -26,68 +25,73 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!user) return;
     const token = sessionStorage.getItem("token");
-    if (user.idProfesor) {
-      fetch(`http://localhost:8080/usuarios/id/${user.idProfesor}`, {
+
+    fetch(`http://localhost:8080/usuarios/id/${sessionStorage.getItem('userId')}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al obtener los datos del usuario");
+        return res.json();
+      })
+      .then((data) => {
+        setUserData(data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar el usuario:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!userData) return;
+    const token = sessionStorage.getItem("token");
+
+    if (userData.idProfesor) {
+      fetch(`http://localhost:8080/usuarios/id/${userData.idProfesor}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
         .then((res) => {
-          if (!res.ok) {
-            throw new Error("Error al obtener el profesor");
-          }
+          if (!res.ok) throw new Error("Error al obtener el profesor");
           return res.json();
         })
-        .then((data) => {
-          setProfesorInfo(data);
-        })
-        .catch((error) => {
-          console.error("Error al obtener el profesor:", error);
-        });
+        .then((data) => setProfesorInfo(data))
+        .catch((error) => console.error("Error al obtener el profesor:", error));
     }
 
-    if (user.id) {
-      fetch(`http://localhost:8080/puntuaciones/usuario/${user.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    fetch(`http://localhost:8080/puntuaciones/usuario/${userData.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al obtener los tests");
+        return res.json();
       })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Error al obtener los tests");
-          }
-          return res.json();
-        })
-        .then((puntuaciones) => {
-          console.log("Puntuaciones obtenidas:", puntuaciones);
-          const puntuacionesConPorcentaje = puntuaciones.map((puntuacion) => {
-            const [obtenidasStr, totalStr] = puntuacion.puntuacion.split("/");
-            const obtenidas = Number(obtenidasStr) || 0;
-            const total = Number(totalStr) || puntuacion.totalPreguntas || 0;
-            const porcentaje = total > 0 ? (obtenidas / total) * 100 : 0;
+      .then((puntuaciones) => {
+        const puntuacionesConPorcentaje = puntuaciones.map((p) => {
+          const [obtenidasStr, totalStr] = p.puntuacion.split("/");
+          const obtenidas = Number(obtenidasStr) || 0;
+          const total = Number(totalStr) || p.totalPreguntas || 0;
+          const porcentaje = total > 0 ? (obtenidas / total) * 100 : 0;
 
-            return {
-              ...puntuacion,
-              porcentaje,
-              obtenidas,
-              total,
-            };
-          });
-
-          const top5 = puntuacionesConPorcentaje
-            .sort((a, b) => b.porcentaje - a.porcentaje)
-            .slice(0, 5);
-          console.log("Top 5 tests:", top5);
-          setMejoresTests(top5);
-        })
-        .catch((error) => {
-          console.error("Error al obtener los tests:", error);
+          return { ...p, porcentaje, obtenidas, total };
         });
-    }
-  }, [user]);
-  if (!user) {
+
+        const top5 = puntuacionesConPorcentaje
+          .sort((a, b) => b.porcentaje - a.porcentaje)
+          .slice(0, 5);
+        setMejoresTests(top5);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los tests:", error);
+      });
+  }, [userData]);
+
+  if (!userData) {
     return <p>Cargando los datos del perfil...</p>;
   }
 
@@ -97,10 +101,10 @@ const ProfilePage = () => {
       <main className="main-profile">
         <div className="profile-container">
           <div className="profile-photo">
-            <img src={`http://localhost:8080${user.imagenPerfil}`} alt="Foto de perfil" />
+            <img src={`http://localhost:8080${userData.imagenPerfil}`} alt="Foto de perfil" />
             <button
               className="boton"
-              onClick={() => navigate("/edit-user", { state: { user } })}
+              onClick={() => navigate("/edit-user", { state: { userData } })}
             >
               EDITAR PERFIL
             </button>
@@ -112,22 +116,22 @@ const ProfilePage = () => {
             </h1>
             <div className="details-grid">
               <div>
-                <span className="semi-title">NOMBRE:</span> {user.nombre}
+                <span className="semi-title">NOMBRE:</span> {userData.nombre}
               </div>
               <div>
-                <span className="semi-title">APELLIDOS:</span> {user.apellidos}
+                <span className="semi-title">APELLIDOS:</span> {userData.apellidos}
               </div>
               <div>
                 <span className="semi-title">CORREO ELECTRÓNICO:</span>{" "}
-                {user.correoElectronico}
+                {userData.correoElectronico}
               </div>
               <div>
                 <span className="semi-title">FECHA DE NACIMIENTO:</span>{" "}
-                {formateFecha(user.fechaNacimiento)}
+                {formateFecha(userData.fechaNacimiento)}
               </div>
               <div>
                 <span className="semi-title">PROFESOR:</span>{" "}
-                {user.idProfesor
+                {userData.idProfesor
                   ? profesorInfo
                     ? `${profesorInfo.nombre} ${profesorInfo.apellidos}`
                     : "Cargando..."
@@ -135,9 +139,9 @@ const ProfilePage = () => {
               </div>
               <div>
                 <span className="semi-title">NIVEL:</span>{" "}
-                {user.nivel
-                  ? user.nivel !== null
-                    ? `${user.nivel}`
+                {userData.nivel
+                  ? userData.nivel !== null
+                    ? `${userData.nivel}`
                     : "Cargando..."
                   : "C1 (Profesor)"}
               </div>

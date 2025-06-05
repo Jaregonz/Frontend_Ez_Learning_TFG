@@ -1650,6 +1650,116 @@ h1 {
   border-radius: 5px;
 }
 
+/*ABOUT US*/
+.AboutUsPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.sobre-nosotros-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Dosis', sans-serif;
+  flex: 1;
+}
+
+.intro-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.intro-text {
+  flex: 1 1 50%;
+}
+
+.intro-text h2 {
+  font-size: 1.8rem;
+  color: #1d1d1d;
+}
+
+.intro-text p {
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.intro-image {
+  flex: 1 1 30%;
+  text-align: center;
+}
+
+.intro-image img {
+  width: 200px;
+  max-width: 100%;
+}
+
+.about-me {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.profile-photo img {
+  border-radius: 20%;
+  object-fit: cover;
+}
+
+.about-text {
+  flex: 1 1 70%;
+}
+
+.about-text h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.donate-section {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #f5faff;
+  border-radius: 12px;
+}
+.botones-paypal {
+  display: flex;
+  justify-content: center;
+}
+.donate-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.donate-subtext {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.donate-button {
+  background-color: #111c4e;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.donate-button:hover {
+  background-color: #1a2766;
+}
+
 /*RESPONSIVE*/
 @media (max-width: 600px) {
   .popup-content {
