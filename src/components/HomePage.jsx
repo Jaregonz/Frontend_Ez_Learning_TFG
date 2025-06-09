@@ -9,6 +9,12 @@ import Footer from './Footer';
 
 function HomePage() {
     const navigate = useNavigate();
+    const handleClickTests = () => {
+        navigate('/tests');
+    }
+    const handleClickExams = () => {
+        navigate('/exams');
+    }
   return (
     <div className="HomePage">
     <Header />
@@ -19,13 +25,13 @@ function HomePage() {
         
             <div className="options">
                 <a href="./tests.html">
-                    <button className="boton">
+                    <button onClick={handleClickTests} className="boton">
                         TESTS
                     </button>
                 </a>
                 <img src="./img/buho.svg" alt="Owlie" className="logo-owlie"/>
                 <a href="./404.html">
-                    <button className="boton">
+                    <button onClick={handleClickExams} className="boton">
                         EXÁMENES
                     </button>
                 </a>
