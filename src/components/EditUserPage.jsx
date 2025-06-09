@@ -10,6 +10,7 @@ const EditUserPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [imagenFile, setImagenFile] = useState(null);
+  const [errores, setErrores] = useState({});
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -25,12 +26,15 @@ const EditUserPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/usuarios/id/${userId}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8080/usuarios/id/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (!response.ok) throw new Error("Error al cargar datos del usuario");
 
@@ -53,7 +57,7 @@ const EditUserPage = () => {
     if (userId) {
       fetchUser();
     }
-  }, [userId  ]);
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,10 +65,54 @@ const EditUserPage = () => {
       ...prevData,
       [name]: value,
     }));
+
+    setErrores((prevErrores) => {
+      const nuevosErrores = { ...prevErrores };
+      delete nuevosErrores[name];
+      return nuevosErrores;
+    });
+  };
+
+  const validarFormulario = () => {
+    const nuevosErrores = {};
+
+    if (!formData.nombre.trim()) {
+      nuevosErrores.nombre = "El nombre es obligatorio.";
+    }
+
+    if (!formData.apellidos.trim()) {
+      nuevosErrores.apellidos = "Los apellidos son obligatorios.";
+    }
+
+    if (!formData.correoElectronico.trim()) {
+      nuevosErrores.correoElectronico = "El correo electrónico es obligatorio.";
+    } else {
+      // Validar formato básico email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.correoElectronico)) {
+        nuevosErrores.correoElectronico = "El correo electrónico no es válido.";
+      }
+    }
+
+    if (!formData.fechaNacimiento) {
+      nuevosErrores.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
+    } else {
+      const fecha = new Date(formData.fechaNacimiento);
+      if (isNaN(fecha.getTime())) {
+        nuevosErrores.fechaNacimiento = "La fecha de nacimiento no es válida.";
+      }
+    }
+
+    // Nivel puede ser opcional, si quieres validar algo específico lo añades aquí.
+
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validarFormulario()) return;
 
     const userEditado = new FormData();
     userEditado.append("nombre", formData.nombre);
@@ -102,7 +150,7 @@ const EditUserPage = () => {
     <div className="EditUserPage">
       <Header />
       <div className="edit-user-page">
-        <form onSubmit={handleSubmit} className="edit-user-form">
+        <form onSubmit={handleSubmit} className="edit-user-form" noValidate>
           <h1>EDITAR USUARIO</h1>
 
           <div className="form-group">
@@ -112,8 +160,9 @@ const EditUserPage = () => {
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
-              required
+              className={errores.nombre ? "input-error" : ""}
             />
+            {errores.nombre && <p className="error-msg">{errores.nombre}</p>}
           </div>
 
           <div className="form-group">
@@ -123,8 +172,11 @@ const EditUserPage = () => {
               name="apellidos"
               value={formData.apellidos}
               onChange={handleChange}
-              required
+              className={errores.apellidos ? "input-error" : ""}
             />
+            {errores.apellidos && (
+              <p className="error-msg">{errores.apellidos}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -134,8 +186,11 @@ const EditUserPage = () => {
               name="correoElectronico"
               value={formData.correoElectronico}
               onChange={handleChange}
-              required
+              className={errores.correoElectronico ? "input-error" : ""}
             />
+            {errores.correoElectronico && (
+              <p className="error-msg">{errores.correoElectronico}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -145,8 +200,11 @@ const EditUserPage = () => {
               name="fechaNacimiento"
               value={formData.fechaNacimiento}
               onChange={handleChange}
-              required
+              className={errores.fechaNacimiento ? "input-error" : ""}
             />
+            {errores.fechaNacimiento && (
+              <p className="error-msg">{errores.fechaNacimiento}</p>
+            )}
           </div>
 
           <div className="form-group">
