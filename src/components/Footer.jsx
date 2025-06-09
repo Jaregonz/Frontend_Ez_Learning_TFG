@@ -1,14 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../App.css";
 import "../styles/style.css";
 import "../styles/footer.css";
 
 const Footer = () => {
+    const navigate = useNavigate();
+    const handleClickAboutUs = () => {
+        navigate('/about-us');
+    }
+    const handleClickHome = () => {
+        navigate('/');
+    }
     return (
         <footer>
             <div className="menu">
-                <a href="/home">Inicio</a>
-                <a href="/404">Sobre nosotros</a>
+                <a onClick={handleClickHome}>Inicio</a>
+                <a onClick={handleClickAboutUs}>Sobre nosotros</a>
                 <a href="/contact">Contáctanos</a>
                 <a href="/404">Preguntas Frecuentes</a>
             </div>
