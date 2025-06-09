@@ -4,14 +4,42 @@ import "../App.css";
 import "../styles/style.css";
 import "../styles/footer.css";
 import "../styles/header.css";
+
 function LandingPage() {
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [errorGeneral, setErrorGeneral] = useState("");
+
+  const validateForm = () => {
+    let valid = true;
+    setUsernameError("");
+    setPasswordError("");
+    setErrorGeneral("");
+
+    if (!username.trim()) {
+      setUsernameError("El correo electrónico es obligatorio.");
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(username)) {
+      setUsernameError("El correo electrónico no es válido.");
+      valid = false;
+    }
+
+    if (!password.trim()) {
+      setPasswordError("La contraseña es obligatoria.");
+      valid = false;
+    }
+
+    return valid;
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await fetch("http://localhost:8080/usuarios/login", {
         method: "POST",
@@ -19,27 +47,29 @@ function LandingPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response.ok) throw new Error("Error en el login");
+      if (!response.ok) {
+        setErrorGeneral("Correo o contraseña incorrectos.");
+        return;
+      }
 
       const token = await response.text();
-
       sessionStorage.setItem("token", token);
-
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const userRole = decodedToken.roles[0];
       sessionStorage.setItem("role", userRole);
-      
-      const responseUser = await fetch("http://localhost:8080/usuarios/perfil-usuario", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const responseUser = await fetch(
+        "http://localhost:8080/usuarios/perfil-usuario",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const user = await responseUser.json();
       sessionStorage.setItem("user", JSON.stringify(user));
-      const usuario = JSON.parse(sessionStorage.getItem("user"));
-      sessionStorage.setItem("userId", usuario.id);
-      console.log("Usuario:", sessionStorage.getItem("userId"));
+      sessionStorage.setItem("userId", user.id);
 
       if (userRole === "ROLE_ALUMNO") {
         navigate("/home");
@@ -48,6 +78,7 @@ function LandingPage() {
       }
     } catch (error) {
       console.error("Error en el login:", error);
+      setErrorGeneral("Error inesperado al intentar iniciar sesión.");
     }
   };
 
@@ -64,6 +95,7 @@ function LandingPage() {
           </div>
         </a>
       </header>
+
       <main className="main-landing-page">
         <div className="landing-page">
           <img
@@ -78,12 +110,13 @@ function LandingPage() {
             <button className="boton" onClick={() => setShowPopup(true)}>
               ACCEDER
             </button>
-            <button className="boton" onClick={() => handleRegister()}>
+            <button className="boton" onClick={handleRegister}>
               REGÍSTRATE
             </button>
           </div>
         </div>
       </main>
+
       <footer>
         <div className="menu">
           <a href="./landing_page.html">Inicio</a>
@@ -105,17 +138,19 @@ function LandingPage() {
           </div>
         </div>
       </footer>
+
       {showPopup && (
         <div className="popup">
           <div className="login-container">
             <span className="close" onClick={() => setShowPopup(false)}>
               &times;
             </span>
-            <h1 className="titulo-login">
-              INICIO DE SESIÓN<span></span>
-            </h1>
-            <form className="login" action="./home.html" onSubmit={handleLogin}>
-              <label for="email">Correo Electrónico</label>
+            <h1 className="titulo-login">INICIO DE SESIÓN</h1>
+
+            {errorGeneral && <p className="error-msg">{errorGeneral}</p>}
+
+            <form className="login" onSubmit={handleLogin}>
+              <label htmlFor="email">Correo Electrónico</label>
               <input
                 type="email"
                 id="email"
@@ -124,8 +159,9 @@ function LandingPage() {
                 placeholder="Correo Electrónico"
                 onChange={(e) => setUsername(e.target.value)}
               />
+              {usernameError && <p className="error-msg">{usernameError}</p>}
 
-              <label for="password">Contraseña</label>
+              <label htmlFor="password">Contraseña</label>
               <input
                 type="password"
                 id="password"
@@ -134,6 +170,7 @@ function LandingPage() {
                 placeholder="Contraseña"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {passwordError && <p className="error-msg">{passwordError}</p>}
 
               <a className="reset-password" href="./404.html">
                 He olvidado mi contraseña
