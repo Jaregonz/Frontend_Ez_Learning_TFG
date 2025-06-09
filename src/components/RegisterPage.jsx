@@ -5,12 +5,14 @@ import "../styles/style.css";
 import "../styles/footer.css";
 import "../styles/header.css";
 import Footer from "./Footer";
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [profesores, setProfesores] = useState([]);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    repeatPassword: "",
     correoElectronico: "",
     nombre: "",
     apellidos: "",
@@ -20,6 +22,8 @@ const RegisterPage = () => {
     imagenPerfil: "",
     idProfesor: "",
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -44,8 +48,55 @@ const RegisterPage = () => {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const passwordRegex = /^[a-zA-Z0-9]+$/;
+
+    if (!formData.nombre.trim()) newErrors.nombre = "El nombre es obligatorio";
+    if (!formData.apellidos.trim())
+      newErrors.apellidos = "Los apellidos son obligatorios";
+
+    if (!formData.correoElectronico.trim()) {
+      newErrors.correoElectronico = "El correo es obligatorio";
+    } else if (!emailRegex.test(formData.correoElectronico)) {
+      newErrors.correoElectronico = "Formato de correo no válido";
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "La contraseña es obligatoria";
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password = "Solo se permiten letras y números";
+    }
+
+    if (!formData.repeatPassword.trim()) {
+      newErrors.repeatPassword = "Repite la contraseña";
+    } else if (formData.password !== formData.repeatPassword) {
+      newErrors.repeatPassword = "Las contraseñas no coinciden";
+    }
+
+    if (!formData.fechaNacimiento) {
+      newErrors.fechaNacimiento = "La fecha es obligatoria";
+    }
+
+    if (formData.rol === "ALUMNO") {
+      if (!formData.nivel) {
+        newErrors.nivel = "Selecciona un nivel";
+      }
+
+      if (!formData.idProfesor) {
+        newErrors.idProfesor = "Selecciona un profesor";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
     const formDataToSend = new FormData();
     formDataToSend.append("username", formData.username);
@@ -59,6 +110,13 @@ const RegisterPage = () => {
     formDataToSend.append("idProfesor", formData.idProfesor);
     if (formData.imagenPerfil) {
       formDataToSend.append("imagenPerfil", formData.imagenPerfil);
+    } else {
+      const response = await fetch("../img/logo-grande.png");
+      const blob = await response.blob();
+      const defaultFile = new File([blob], "default-profile.png", {
+        type: blob.type,
+      });
+      formDataToSend.append("imagenPerfil", defaultFile);
     }
 
     try {
@@ -67,9 +125,7 @@ const RegisterPage = () => {
         body: formDataToSend,
       });
 
-      if (!response.ok) {
-        throw new Error("Error en el registro");
-      }
+      if (!response.ok) throw new Error("Error en el registro");
 
       alert("Registro exitoso");
       navigate("/");
@@ -102,7 +158,7 @@ const RegisterPage = () => {
   return (
     <div className="RegisterPage">
       <header>
-        <a href="landing_page.html">
+        <a href="/">
           <div className="logo">
             <img src="./img/Icono EzLearning.png" alt="Logo" />
           </div>
@@ -120,9 +176,12 @@ const RegisterPage = () => {
                 id="nombre"
                 name="nombre"
                 placeholder="Nombre"
-                required
                 onChange={handleChange}
+                className={errors.nombre ? "input-error" : ""}
               />
+              {errors.nombre && (
+                <span className="error-msg">{errors.nombre}</span>
+              )}
 
               <label htmlFor="apellidos">Apellidos</label>
               <input
@@ -130,9 +189,12 @@ const RegisterPage = () => {
                 id="apellidos"
                 name="apellidos"
                 placeholder="Apellidos"
-                required
                 onChange={handleChange}
+                className={errors.apellidos ? "input-error" : ""}
               />
+              {errors.apellidos && (
+                <span className="error-msg">{errors.apellidos}</span>
+              )}
 
               <label htmlFor="password">Contraseña</label>
               <input
@@ -140,9 +202,25 @@ const RegisterPage = () => {
                 id="password"
                 name="password"
                 placeholder="Contraseña"
-                required
                 onChange={handleChange}
+                className={errors.password ? "input-error" : ""}
               />
+              {errors.password && (
+                <span className="error-msg">{errors.password}</span>
+              )}
+
+              <label htmlFor="repeatPassword">Repetir Contraseña</label>
+              <input
+                type="password"
+                id="repeatPassword"
+                name="repeatPassword"
+                placeholder="Repite la contraseña"
+                onChange={handleChange}
+                className={errors.repeatPassword ? "input-error" : ""}
+              />
+              {errors.repeatPassword && (
+                <span className="error-msg">{errors.repeatPassword}</span>
+              )}
 
               <label htmlFor="correoElectronico">Correo Electrónico</label>
               <input
@@ -150,18 +228,24 @@ const RegisterPage = () => {
                 id="correoElectronico"
                 name="correoElectronico"
                 placeholder="Correo Electrónico"
-                required
                 onChange={handleChange}
+                className={errors.correoElectronico ? "input-error" : ""}
               />
+              {errors.correoElectronico && (
+                <span className="error-msg">{errors.correoElectronico}</span>
+              )}
 
               <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
               <input
                 type="date"
                 id="fechaNacimiento"
                 name="fechaNacimiento"
-                required
                 onChange={handleChange}
+                className={errors.fechaNacimiento ? "input-error" : ""}
               />
+              {errors.fechaNacimiento && (
+                <span className="error-msg">{errors.fechaNacimiento}</span>
+              )}
 
               <label htmlFor="imagenPerfil">Imagen de Perfil</label>
               <input
@@ -191,21 +275,26 @@ const RegisterPage = () => {
               <select
                 id="nivel"
                 name="nivel"
-                required
                 onChange={handleChange}
                 disabled={formData.rol === "PROFESOR"}
+                className={errors.nivel ? "input-error" : ""}
               >
                 <option value="">Selecciona un nivel</option>
                 <option value="B1">B1</option>
                 <option value="B2">B2</option>
                 <option value="C1">C1</option>
               </select>
+              {errors.nivel && (
+                <span className="error-msg">{errors.nivel}</span>
+              )}
+
               <label htmlFor="profesor">Profesor asignado</label>
               <select
                 id="profesor"
                 name="idProfesor"
                 onChange={handleChange}
                 disabled={formData.rol === "PROFESOR"}
+                className={errors.idProfesor ? "input-error" : ""}
               >
                 <option value="">Selecciona un profesor</option>
                 {profesores.map((profesor) => (
@@ -214,6 +303,9 @@ const RegisterPage = () => {
                   </option>
                 ))}
               </select>
+              {errors.idProfesor && (
+                <span className="error-msg">{errors.idProfesor}</span>
+              )}
 
               <button className="boton" type="submit">
                 REGISTRARSE

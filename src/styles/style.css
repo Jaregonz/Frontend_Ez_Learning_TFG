@@ -1,3 +1,4 @@
+/*GENERAL*/
 a:hover {
   text-decoration: none !important;
 }
@@ -42,6 +43,17 @@ a {
   text-decoration: none;
 }
 
+.input-error {
+  border: 1px solid red;
+  box-shadow: 0 0 4px red;
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  display: block;
+}
 h1 {
   font-family: Dosis;
   font-size: 20px;
@@ -1218,7 +1230,6 @@ h1 {
 /*MEJORES RESULTADOS y EDITAR PERFIL (PERFIL)*/
 
 .EditUserPage {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #d9f1fc;
@@ -1239,6 +1250,8 @@ h1 {
 }
 
 .edit-user-form {
+  margin-top: 30px;
+  margin-bottom: 30px;
   background-color: #f4fbff;
   padding: 40px;
   border-radius: 12px;
@@ -1801,6 +1814,56 @@ h1 {
 
   .result {
     grid-template-columns: 1fr;
+  }
+}
+
+/*EDITAR PERFIL*/
+
+@media screen and (max-width: 768px) {
+  .edit-user-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .edit-user-form h2 {
+    font-size: 20px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+  }
+
+  .form-group input {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+  .edit-user-page {
+    height: auto;
+    padding: 20px 10px;
+  }
+
+  .edit-user-form {
+    width: 100%;
+    padding: 16px;
+    box-shadow: none;
+    border-radius: 8px;
+  }
+
+  .edit-user-form h2 {
+    font-size: 18px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+  }
+
+  .form-group input {
+    font-size: 12px;
+    padding: 6px;
   }
 }
 
