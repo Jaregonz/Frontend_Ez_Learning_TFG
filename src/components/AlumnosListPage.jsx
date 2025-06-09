@@ -7,6 +7,8 @@ function AlumnoListPage() {
   const [alumnos, setAlumnos] = useState([]);
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [imagenFile, setImagenFile] = useState(null);
+  const [errores, setErrores] = useState({});
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -56,16 +58,59 @@ function AlumnoListPage() {
     setShowModal(false);
     setFormData({});
   };
+  const validarFormulario = () => {
+    const nuevosErrores = {};
+
+    if (!formData.nombre || formData.nombre.trim() === "") {
+      nuevosErrores.nombre = "El nombre es obligatorio.";
+    }
+
+    if (!formData.apellidos || formData.apellidos.trim() === "") {
+      nuevosErrores.apellidos = "Los apellidos son obligatorios.";
+    }
+
+    if (
+      !formData.correoElectronico ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correoElectronico)
+    ) {
+      nuevosErrores.correoElectronico = "Correo electrónico no válido.";
+    }
+
+    if (!formData.fechaNacimiento) {
+      nuevosErrores.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
+    } else if (new Date(formData.fechaNacimiento) > new Date()) {
+      nuevosErrores.fechaNacimiento = "La fecha no puede ser futura.";
+    }
+
+    if (!formData.nivel) {
+      nuevosErrores.nivel = "Selecciona un nivel.";
+    }
+
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
+  };
 
   const guardarCambios = () => {
-    console.log("Guardando cambios para:", formData);
+    if (!validarFormulario()) return;
+
+    const form = new FormData();
+
+    form.append("correoElectronico", formData.correoElectronico);
+    form.append("nombre", formData.nombre);
+    form.append("apellidos", formData.apellidos);
+    form.append("fechaNacimiento", formData.fechaNacimiento);
+    form.append("nivel", formData.nivel || "");
+
+    if (imagenFile) {
+      form.append("imagenPerfil", imagenFile);
+    }
+
     fetch(`http://localhost:8080/usuarios/${formData.id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
-      body: JSON.stringify(formData),
+      body: form,
     })
       .then((res) => {
         if (!res.ok) throw new Error("Error al actualizar alumno");
@@ -134,6 +179,7 @@ function AlumnoListPage() {
               value={formData.nombre || ""}
               onChange={handleChange}
             />
+            {errores.nombre && <p className="error-msg">{errores.nombre}</p>}
 
             <label>Apellidos:</label>
             <input
@@ -142,6 +188,7 @@ function AlumnoListPage() {
               value={formData.apellidos || ""}
               onChange={handleChange}
             />
+            {errores.apellidos && <p className="error-msg">{errores.apellidos}</p>}
 
             <label>Correo Electrónico:</label>
             <input
@@ -150,6 +197,9 @@ function AlumnoListPage() {
               value={formData.correoElectronico || ""}
               onChange={handleChange}
             />
+            {errores.correoElectronico && (
+              <p className="error-msg">{errores.correoElectronico}</p>
+            )}
 
             <label>Nivel:</label>
             <select
@@ -162,13 +212,14 @@ function AlumnoListPage() {
               <option value="B2">B2</option>
               <option value="C1">C1</option>
             </select>
+            {errores.nivel && <p className="error-msg">{errores.nivel}</p>}
 
-            <label>Imagen de Perfil (URL):</label>
+            <label>Imagen de Perfil (archivo):</label>
             <input
-              type="text"
+              type="file"
               name="imagenPerfil"
-              value={formData.imagenPerfil || ""}
-              onChange={handleChange}
+              accept="image/*"
+              onChange={(e) => setImagenFile(e.target.files?.[0] || null)}
             />
 
             <label>Fecha de Nacimiento:</label>
@@ -178,6 +229,9 @@ function AlumnoListPage() {
               value={formData.fechaNacimiento || ""}
               onChange={handleChange}
             />
+            {errores.fechaNacimiento && (
+              <p className="error-msg">{errores.fechaNacimiento}</p>
+            )}
 
             <div className="modal-buttons">
               <button className="boton btn guardar" onClick={guardarCambios}>
@@ -190,7 +244,6 @@ function AlumnoListPage() {
           </div>
         </div>
       )}
-
       <Footer />
     </div>
   );
