@@ -117,6 +117,8 @@ export default function EntregasListPage() {
                 )}
               </div>
 
+             {entrega.archivoRespuestaRuta ? (
+
               <details className="entrega-detalles">
                 <summary>Evaluar entrega</summary>
 
@@ -164,6 +166,11 @@ export default function EntregasListPage() {
                   Guardar evaluación
                 </button>
               </details>
+              ) : (
+                <div className="entrega-detalles">
+                  <p className="no-evaluacion">No se puede evaluar</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
